@@ -1,0 +1,30 @@
+<div class="card-container">
+	<div id="card-flipper" class="card-flipper">
+		<div id="card-front">
+			<div class="d-flex">
+				<div class="p-2 mr-auto ">.</div>
+				<div class="p-2 ml-auto ">..</div>
+			</div>
+		</div>
+		<div id="card-back"></div>
+	</div>
+</div>
+
+
+<script>
+	$('.card-flipper').click(function() {
+		if ($(this).css('transform') == 'none') {
+			$(this).css("transform", "rotateY(180deg)");
+		} else {
+			$(this).css("transform", "");
+		}
+	})
+	console.log(document.body.clientHeight);
+</script>
+<style>
+.card-container {
+	background-image: url(image/card.jpg);
+	background-repeat: none;
+	background-size: 100%;
+}
+</style>
