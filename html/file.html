@@ -1,0 +1,117 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>폼 추가/삭제 예제</title>
+    <title>mail-form</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="maill.css">
+    <link rel="stylesheet" type="text/css" href="common.css">
+</head>
+
+<body>
+    <div id="mail-form">
+        <div id="bott">
+            <center>
+                <a id="preview_mail" data-toggle="modal" class="btn btn-secondary" data-target="#form-mail" href="#form-mail">미리보기</a>
+                <button id="mail-submit" class="btn btn-light">확인</button>
+            </center>
+        </div>
+    </div>
+    <div class="mailmain">
+   <center>
+        <input type="text" id="form-title" placeholder="[ TITLE ]">
+            <div id="test">
+            </div>
+        </center>
+    </div>
+    <button id="addBtn" type="button">추가</button>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
+    <script src="node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="node_modules/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.js"></script>
+    <script src="node_modules/blueimp-file-upload/js/jquery.fileupload.js"></script>
+    <script src="node_modules/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
+    <script src="node_modules/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script>
+        "use strict"
+        var count = 0;
+
+        let str = null;
+
+        function createStr(count) {
+            return str = `<div id="mail-form${count}" style="margin-top:10%;
+                                border: 2px dashed;">\
+            <div id="image-div${count}"> 사진:<br> <input id="fileupload${count}" type="file" name="files" accept="image/*"><br>\
+            <img id="image${count}" src="#" style="max-width : 300px"></div>\
+            상품명:<br> <input id="title${count}" type="text"><br>\
+            상품 상세:<br> <textarea id='explain${count}' type='text' cols="40" rows="5" style="resize:none;"></textarea><br><br>\
+            </div>`;
+            //<div id="#images-div${count}"></div>
+        }
+
+
+        $('#addBtn').click((e) => {
+            count++;
+            createStr(count);
+            console.log(count);
+            if (count <= 9) {
+                for (var i = 0; i <= count; i++) {
+                    var addedDiv = document.createElement('div');
+                    addedDiv.id = "mailform" + count;
+
+                    $('#test').append(str);
+
+                    break;
+                    //  document.baseForm.count.value = count;
+                    // console.log(i);
+
+                }
+            } else {
+                alert('항목을 모두 추가하셨습니다.');
+            };
+        });
+        $('#test').click((e) => {
+            var click_id = e.target.getAttribute('id');
+            var id_num = click_id.substr(10, 11);
+            if (click_id.substr(0, 10) == 'fileupload') {
+                $(`#fileupload${id_num}`).change(() => {
+                    console.log(`#fileupload${id_num}`);
+                    var input_id = `#fileupload${id_num}`;
+                    readURL(id_num);
+                })
+            } else {
+                console.log("실패");
+            }
+        })
+
+        function readURL(id_num) {
+            var input_id = document.querySelector(`#fileupload${id_num}`);
+            console.log('체크 값 : ' + input_id.files[0]);
+            if (input_id.files && input_id.files[0]) {
+                var reader = new FileReader();
+                console.log('넘버 ? : ' + `#image${id_num}`);
+                reader.onload = function(e) {
+                    $(`#image${id_num}`).attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input_id.files[0]);
+            } else {
+                console.log("no image");
+                alert("파일을 반드시 업로드 해주세요!!");
+            }
+            console.log("여긴가");
+        }
+
+        function preview() {
+            var prev;
+            prev = window.open('#test', 'introwin',
+                'width=1200,height=2400');
+        }
+
+    </script>
+</body>
